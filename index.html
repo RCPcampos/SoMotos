@@ -31,10 +31,33 @@
   <button class="close-btn" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
 </div>
 
+<!-- ═══ TOP NAV — fixa no topo (mobile) ═══ -->
+<nav class="top-nav">
+  <div class="top-nav-logo">🏍️ <span>MOTO<em>GASTOS</em></span></div>
+  <div class="top-nav-tabs">
+    <button class="tnav-btn active" onclick="showTab('hoje')" id="nav-hoje">
+      <span class="tnav-icon">📊</span>
+      <span class="tnav-label">Hoje</span>
+    </button>
+    <button class="tnav-btn" onclick="showTab('historico')" id="nav-historico">
+      <span class="tnav-icon">📅</span>
+      <span class="tnav-label">Histórico</span>
+    </button>
+    <button class="tnav-btn" onclick="showTab('mensal')" id="nav-mensal">
+      <span class="tnav-icon">📈</span>
+      <span class="tnav-label">Mensal</span>
+    </button>
+    <button class="tnav-btn" onclick="showTab('config')" id="nav-config">
+      <span class="tnav-icon">⚙️</span>
+      <span class="tnav-label">Config</span>
+    </button>
+  </div>
+</nav>
+
 <!-- APP -->
 <div class="app" id="app" style="opacity:0">
 
-  <!-- SIDEBAR (desktop) -->
+  <!-- ═══ SIDEBAR (desktop 900px+) ═══ -->
   <aside class="sidebar-nav" id="sidebarNav">
     <div class="sidebar-logo">
       <div class="sidebar-logo-icon">🏍️</div>
@@ -57,418 +80,323 @@
     <div class="sidebar-footer">MotoGastos Pro v2.0</div>
   </aside>
 
-  <!-- ======== TAB: HOJE ======== -->
-  <div class="tab active" id="tab-hoje">
-    <header class="page-header">
-      <div class="header-left">
-        <div class="logo-badge">🏍️</div>
-        <div>
-          <h1 class="page-title">MOTO<span>GASTOS</span></h1>
-          <p class="page-date" id="dataHoje"></p>
-        </div>
-      </div>
-    </header>
+  <!-- ═══ CONTEÚDO ═══ -->
+  <div class="content-area">
 
-    <div class="scroll-area">
+    <!-- Espaçador que empurra o conteúdo para baixo da top-nav fixa -->
+    <div class="top-nav-spacer"></div>
 
-      <!-- HODÔMETRO -->
-      <section class="section">
-        <div class="section-header">
-          <h2>📍 Hodômetro</h2>
-        </div>
-        <div class="card">
-          <div class="grid-2">
-            <div class="field">
-              <label>Início do dia</label>
-              <div class="input-wrap">
-                <span class="unit">KM</span>
-                <input type="number" id="hodoInicio" inputmode="decimal" placeholder="0" oninput="onHodoChange()">
-              </div>
-            </div>
-            <div class="field">
-              <label>Final do dia</label>
-              <div class="input-wrap">
-                <span class="unit">KM</span>
-                <input type="number" id="hodoFim" inputmode="decimal" placeholder="0" oninput="onHodoChange()">
-              </div>
-            </div>
-          </div>
-          <div class="km-pill" id="kmPill">
-            <span class="pill-label">Rodados hoje</span>
-            <span class="pill-value" id="kmTotal">— km</span>
-          </div>
-        </div>
-      </section>
+    <!-- ======== TAB: HOJE ======== -->
+    <div class="tab active" id="tab-hoje">
+      <div class="scroll-area">
 
-      <!-- COMBUSTÍVEL -->
-      <section class="section">
-        <div class="section-header"><h2>⛽ Combustível</h2></div>
-        <div class="card">
-          <div class="field">
-            <label>Valor do litro de gasolina</label>
-            <div class="input-wrap">
-              <span class="unit">R$</span>
-              <input type="number" id="vlrLitro" inputmode="decimal" placeholder="6.20" step="0.01">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- GANHO -->
-      <section class="section">
-        <div class="section-header"><h2>💰 Receita</h2></div>
-        <div class="card">
-          <div class="field">
-            <label>Ganho bruto do dia</label>
-            <div class="input-wrap">
-              <span class="unit">R$</span>
-              <input type="number" id="ganhoDia" inputmode="decimal" placeholder="0.00" step="0.01">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CUSTOS EXTRAS -->
-      <section class="section">
-        <div class="section-header">
-          <h2>🔧 Custos Extras do Dia</h2>
-          <span class="optional-badge">opcional</span>
-        </div>
-        <div class="card">
-          <div class="grid-2">
-            <div class="field">
-              <label>Óleo/filtro</label>
-              <div class="input-wrap">
-                <span class="unit">R$</span>
-                <input type="number" id="custoOleo" inputmode="decimal" placeholder="0.00" step="0.01">
-              </div>
-            </div>
-            <div class="field">
-              <label>Manutenção</label>
-              <div class="input-wrap">
-                <span class="unit">R$</span>
-                <input type="number" id="custoManutencao" inputmode="decimal" placeholder="0.00" step="0.01">
-              </div>
-            </div>
-            <div class="field">
-              <label>IPVA (diário)</label>
-              <div class="input-wrap">
-                <span class="unit">R$</span>
-                <input type="number" id="custoIpva" inputmode="decimal" placeholder="0.00" step="0.01">
-              </div>
-            </div>
-            <div class="field">
-              <label>Seguro (diário)</label>
-              <div class="input-wrap">
-                <span class="unit">R$</span>
-                <input type="number" id="custoSeguro" inputmode="decimal" placeholder="0.00" step="0.01">
-              </div>
-            </div>
-          </div>
-          <div class="extras-tip">💡 IPVA anual ÷ 365 = valor diário</div>
-        </div>
-      </section>
-
-      <!-- BOTÃO -->
-      <div class="section">
-        <button class="btn-calc" onclick="calcular()">CALCULAR RESULTADO</button>
-      </div>
-
-      <!-- RESULTADOS -->
-      <div id="resultados" class="results-area" style="display:none">
-
-        <!-- GANHO REAL HERO -->
-        <div class="hero-result" id="heroResult">
-          <div class="hero-label">GANHO REAL DO DIA</div>
-          <div class="hero-value" id="heroValor">R$ 0,00</div>
-          <div class="hero-sub" id="heroSub"></div>
-        </div>
-
-        <!-- CARDS DE GASTOS -->
         <section class="section">
-          <div class="section-header"><h2>💸 Detalhamento</h2></div>
-          <div class="breakdown-list">
-            <div class="breakdown-row income">
-              <span class="b-ico">💰</span>
-              <span class="b-name">Ganho bruto</span>
-              <span class="b-val positive" id="b-ganho">R$ 0,00</span>
-            </div>
-            <div class="breakdown-row">
-              <span class="b-ico">⛽</span>
-              <span class="b-name">Gasolina<small id="b-gas-det"></small></span>
-              <span class="b-val negative" id="b-gas">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row">
-              <span class="b-ico">🔘</span>
-              <span class="b-name">Pneu (amort.)<small id="b-pneu-det"></small></span>
-              <span class="b-val negative" id="b-pneu">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row">
-              <span class="b-ico">⛓️</span>
-              <span class="b-name">Relação (amort.)<small id="b-relacao-det"></small></span>
-              <span class="b-val negative" id="b-relacao">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row" id="row-oleo" style="display:none">
-              <span class="b-ico">🛢️</span>
-              <span class="b-name">Óleo/filtro</span>
-              <span class="b-val negative" id="b-oleo">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row" id="row-manut" style="display:none">
-              <span class="b-ico">🔧</span>
-              <span class="b-name">Manutenção</span>
-              <span class="b-val negative" id="b-manut">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row" id="row-ipva" style="display:none">
-              <span class="b-ico">📋</span>
-              <span class="b-name">IPVA</span>
-              <span class="b-val negative" id="b-ipva">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row" id="row-seguro" style="display:none">
-              <span class="b-ico">🛡️</span>
-              <span class="b-name">Seguro</span>
-              <span class="b-val negative" id="b-seguro">- R$ 0,00</span>
-            </div>
-            <div class="breakdown-row total-row">
-              <span class="b-ico">📊</span>
-              <span class="b-name">Total gastos</span>
-              <span class="b-val total-neg" id="b-total">- R$ 0,00</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- GRÁFICO DONUT -->
-        <section class="section">
-          <div class="section-header"><h2>🥧 Composição dos Gastos</h2></div>
-          <div class="card chart-card">
-            <div class="donut-wrap">
-              <canvas id="donutChart"></canvas>
-              <div class="donut-center">
-                <div class="dc-label">GASTOS</div>
-                <div class="dc-val" id="dc-total">R$ 0</div>
-              </div>
-            </div>
-            <div class="chart-legend" id="chartLegend"></div>
-          </div>
-        </section>
-
-        <!-- BARRA DE EFICIÊNCIA -->
-        <section class="section">
-          <div class="section-header"><h2>⚡ Eficiência do Dia</h2></div>
+          <div class="section-header"><h2>📍 Hodômetro</h2></div>
           <div class="card">
-            <div class="efficiency-bars" id="efficiencyBars"></div>
+            <div class="grid-2">
+              <div class="field">
+                <label>Início do dia</label>
+                <div class="input-wrap">
+                  <span class="unit">KM</span>
+                  <input type="number" id="hodoInicio" inputmode="decimal" placeholder="0" oninput="onHodoChange()">
+                </div>
+              </div>
+              <div class="field">
+                <label>Final do dia</label>
+                <div class="input-wrap">
+                  <span class="unit">KM</span>
+                  <input type="number" id="hodoFim" inputmode="decimal" placeholder="0" oninput="onHodoChange()">
+                </div>
+              </div>
+            </div>
+            <div class="km-pill" id="kmPill">
+              <span class="pill-label">Rodados hoje</span>
+              <span class="pill-value" id="kmTotal">— km</span>
+            </div>
           </div>
         </section>
 
-        <!-- AÇÕES -->
-        <div class="section action-row">
-          <button class="btn-secondary" onclick="salvarDia()">💾 Salvar no Histórico</button>
-          <button class="btn-secondary" onclick="exportarPDF()">📄 Exportar PDF</button>
-        </div>
-
-        <div class="section">
-          <button class="btn-ghost" onclick="resetarCalculo()">↺ Novo cálculo</button>
-        </div>
-      </div>
-
-    </div><!-- end scroll-area -->
-  </div><!-- end tab-hoje -->
-
-  <!-- ======== TAB: HISTÓRICO ======== -->
-  <div class="tab" id="tab-historico">
-    <header class="page-header">
-      <div class="header-left">
-        <h1 class="page-title">HISTÓRICO</h1>
-      </div>
-      <button class="btn-icon" onclick="limparHistorico()" title="Limpar histórico">🗑️</button>
-    </header>
-    <div class="scroll-area" id="historicoList">
-      <div class="empty-state">
-        <div class="empty-ico">📭</div>
-        <p>Nenhum registro ainda.<br>Calcule e salve seu primeiro dia!</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======== TAB: MENSAL ======== -->
-  <div class="tab" id="tab-mensal">
-    <header class="page-header">
-      <div class="header-left">
-        <h1 class="page-title">PAINEL <span>MENSAL</span></h1>
-      </div>
-      <div class="month-selector">
-        <button onclick="mudarMes(-1)">◀</button>
-        <span id="mesSelecionado"></span>
-        <button onclick="mudarMes(1)">▶</button>
-      </div>
-    </header>
-    <div class="scroll-area">
-
-      <!-- STATS CARDS -->
-      <div class="stats-grid" id="statsGrid">
-        <div class="stat-card">
-          <div class="stat-label">Dias trabalhados</div>
-          <div class="stat-value" id="s-dias">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">KM rodados</div>
-          <div class="stat-value" id="s-km">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Ganho bruto</div>
-          <div class="stat-value green" id="s-bruto">R$ 0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total gastos</div>
-          <div class="stat-value red" id="s-gastos">R$ 0</div>
-        </div>
-        <div class="stat-card full-width">
-          <div class="stat-label">Lucro líquido do mês</div>
-          <div class="stat-value big" id="s-lucro">R$ 0,00</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Média diária</div>
-          <div class="stat-value" id="s-media">R$ 0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Melhor dia</div>
-          <div class="stat-value green" id="s-melhor">R$ 0</div>
-        </div>
-      </div>
-
-      <!-- GRÁFICO MENSAL BARRAS -->
-      <section class="section">
-        <div class="section-header"><h2>📊 Lucro por Dia</h2></div>
-        <div class="card chart-card-bar">
-          <canvas id="barChart" height="220"></canvas>
-        </div>
-      </section>
-
-      <!-- GRÁFICO LINHA ACUMULADO -->
-      <section class="section">
-        <div class="section-header"><h2>📈 Acumulado do Mês</h2></div>
-        <div class="card chart-card-bar">
-          <canvas id="lineChart" height="200"></canvas>
-        </div>
-      </section>
-
-      <!-- EXPORTAR MENSAL -->
-      <div class="section">
-        <button class="btn-secondary" onclick="exportarMensalPDF()">📄 Exportar Relatório Mensal PDF</button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ======== TAB: CONFIG ======== -->
-  <div class="tab" id="tab-config">
-    <header class="page-header">
-      <div class="header-left">
-        <h1 class="page-title">CONFIGURAÇÕES</h1>
-      </div>
-    </header>
-    <div class="scroll-area">
-
-      <section class="section">
-        <div class="section-header"><h2>🏍️ Parâmetros da Moto</h2></div>
-        <div class="card">
-          <div class="grid-2">
+        <section class="section">
+          <div class="section-header"><h2>⛽ Combustível</h2></div>
+          <div class="card">
             <div class="field">
-              <label>Consumo médio (km/L)</label>
-              <div class="input-wrap">
-                <span class="unit">⛽</span>
-                <input type="number" id="cfg-consumo" value="35" step="0.5" oninput="salvarConfig()">
-              </div>
-              <span class="field-hint">CG 160 ≈ 40 | CB 300 ≈ 22</span>
-            </div>
-            <div class="field">
-              <label>Vida útil do par de pneus (km)</label>
-              <div class="input-wrap">
-                <span class="unit">🔘</span>
-                <input type="number" id="cfg-vidaPneu" value="20000" step="1000" oninput="salvarConfig()">
-              </div>
-            </div>
-            <div class="field">
-              <label>Custo do par de pneus (R$)</label>
+              <label>Valor do litro de gasolina</label>
               <div class="input-wrap">
                 <span class="unit">R$</span>
-                <input type="number" id="cfg-custoPneu" value="350" step="10" oninput="salvarConfig()">
-              </div>
-            </div>
-            <div class="field">
-              <label>Vida útil da relação (km)</label>
-              <div class="input-wrap">
-                <span class="unit">⛓️</span>
-                <input type="number" id="cfg-vidaRelacao" value="20000" step="1000" oninput="salvarConfig()">
-              </div>
-            </div>
-            <div class="field">
-              <label>Custo do kit relação (R$)</label>
-              <div class="input-wrap">
-                <span class="unit">R$</span>
-                <input type="number" id="cfg-custoRelacao" value="280" step="10" oninput="salvarConfig()">
+                <input type="number" id="vlrLitro" inputmode="decimal" placeholder="6.20" step="0.01">
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section">
-        <div class="section-header"><h2>📋 Custos Fixos Anuais</h2></div>
-        <div class="card">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Valores anuais — calculamos o custo diário automaticamente (÷365)</p>
-          <div class="grid-2">
+        <section class="section">
+          <div class="section-header"><h2>💰 Receita</h2></div>
+          <div class="card">
             <div class="field">
-              <label>IPVA anual (R$)</label>
+              <label>Ganho bruto do dia</label>
               <div class="input-wrap">
                 <span class="unit">R$</span>
-                <input type="number" id="cfg-ipva" value="0" step="10" oninput="salvarConfig();atualizarDiario('ipva')">
+                <input type="number" id="ganhoDia" inputmode="decimal" placeholder="0.00" step="0.01">
               </div>
-              <span class="field-hint">Diário: <strong id="diario-ipva">R$ 0,00</strong></span>
-            </div>
-            <div class="field">
-              <label>Seguro anual (R$)</label>
-              <div class="input-wrap">
-                <span class="unit">R$</span>
-                <input type="number" id="cfg-seguro" value="0" step="10" oninput="salvarConfig();atualizarDiario('seguro')">
-              </div>
-              <span class="field-hint">Diário: <strong id="diario-seguro">R$ 0,00</strong></span>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section">
-        <div class="section-header"><h2>ℹ️ Sobre</h2></div>
-        <div class="card about-card">
-          <div class="about-item"><span>🏍️</span> MotoGastos Pro v2.0</div>
-          <div class="about-item"><span>💾</span> Dados salvos localmente no dispositivo</div>
-          <div class="about-item"><span>📶</span> Funciona sem internet (PWA)</div>
-          <div class="about-item" id="registros-count"><span>📊</span> 0 registros salvos</div>
-          <button class="btn-danger" onclick="confirmarLimparTudo()">🗑️ Apagar todos os dados</button>
-        </div>
-      </section>
+        <section class="section">
+          <div class="section-header">
+            <h2>🔧 Custos Extras do Dia</h2>
+            <span class="optional-badge">opcional</span>
+          </div>
+          <div class="card">
+            <div class="grid-2">
+              <div class="field">
+                <label>Óleo/filtro</label>
+                <div class="input-wrap">
+                  <span class="unit">R$</span>
+                  <input type="number" id="custoOleo" inputmode="decimal" placeholder="0.00" step="0.01">
+                </div>
+              </div>
+              <div class="field">
+                <label>Manutenção</label>
+                <div class="input-wrap">
+                  <span class="unit">R$</span>
+                  <input type="number" id="custoManutencao" inputmode="decimal" placeholder="0.00" step="0.01">
+                </div>
+              </div>
+              <div class="field">
+                <label>IPVA (diário)</label>
+                <div class="input-wrap">
+                  <span class="unit">R$</span>
+                  <input type="number" id="custoIpva" inputmode="decimal" placeholder="0.00" step="0.01">
+                </div>
+              </div>
+              <div class="field">
+                <label>Seguro (diário)</label>
+                <div class="input-wrap">
+                  <span class="unit">R$</span>
+                  <input type="number" id="custoSeguro" inputmode="decimal" placeholder="0.00" step="0.01">
+                </div>
+              </div>
+            </div>
+            <div class="extras-tip">💡 IPVA anual ÷ 365 = valor diário</div>
+          </div>
+        </section>
 
+        <section class="section">
+          <button class="btn-calc" onclick="calcular()">CALCULAR RESULTADO</button>
+        </section>
+
+        <!-- RESULTADOS -->
+        <div id="resultados" class="results-area" style="display:none">
+
+          <div class="hero-result" id="heroResult">
+            <div class="hero-label">GANHO REAL DO DIA</div>
+            <div class="hero-value" id="heroValor">R$ 0,00</div>
+            <div class="hero-sub" id="heroSub"></div>
+          </div>
+
+          <section class="section">
+            <div class="section-header"><h2>💸 Detalhamento</h2></div>
+            <div class="breakdown-list">
+              <div class="breakdown-row income">
+                <span class="b-ico">💰</span>
+                <span class="b-name">Ganho bruto</span>
+                <span class="b-val positive" id="b-ganho">R$ 0,00</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="b-ico">⛽</span>
+                <span class="b-name">Gasolina<small id="b-gas-det"></small></span>
+                <span class="b-val negative" id="b-gas">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="b-ico">🔘</span>
+                <span class="b-name">Pneu (amort.)<small id="b-pneu-det"></small></span>
+                <span class="b-val negative" id="b-pneu">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="b-ico">⛓️</span>
+                <span class="b-name">Relação (amort.)<small id="b-relacao-det"></small></span>
+                <span class="b-val negative" id="b-relacao">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row" id="row-oleo" style="display:none">
+                <span class="b-ico">🛢️</span>
+                <span class="b-name">Óleo/filtro</span>
+                <span class="b-val negative" id="b-oleo">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row" id="row-manut" style="display:none">
+                <span class="b-ico">🔧</span>
+                <span class="b-name">Manutenção</span>
+                <span class="b-val negative" id="b-manut">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row" id="row-ipva" style="display:none">
+                <span class="b-ico">📋</span>
+                <span class="b-name">IPVA (diário)</span>
+                <span class="b-val negative" id="b-ipva">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row" id="row-seguro" style="display:none">
+                <span class="b-ico">🛡️</span>
+                <span class="b-name">Seguro (diário)</span>
+                <span class="b-val negative" id="b-seguro">- R$ 0,00</span>
+              </div>
+              <div class="breakdown-row total-row">
+                <span class="b-ico">📊</span>
+                <span class="b-name">Total de gastos</span>
+                <span class="b-val total-neg" id="b-total">- R$ 0,00</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-header"><h2>🥧 Composição dos Gastos</h2></div>
+            <div class="card chart-card">
+              <div class="donut-wrap">
+                <canvas id="donutChart"></canvas>
+                <div class="donut-center">
+                  <span class="dc-label">GASTOS</span>
+                  <span class="dc-val" id="dc-total">R$ 0</span>
+                </div>
+              </div>
+              <div class="chart-legend" id="chartLegend"></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-header"><h2>📊 Eficiência do Dia</h2></div>
+            <div class="card">
+              <div class="efficiency-bars" id="effBars"></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="action-row">
+              <button class="btn-secondary" onclick="salvarDia()">💾 Salvar no Histórico</button>
+              <button class="btn-secondary" onclick="exportarPDF()">📄 Exportar PDF</button>
+            </div>
+          </section>
+
+          <section class="section">
+            <button class="btn-ghost" onclick="resetarCalculo()">↺ Novo cálculo</button>
+          </section>
+
+        </div><!-- /resultados -->
+      </div><!-- /scroll-area -->
+    </div><!-- /tab-hoje -->
+
+    <!-- ======== TAB: HISTÓRICO ======== -->
+    <div class="tab" id="tab-historico">
+      <div class="tab-header">
+        <h1 class="tab-title">HISTÓRICO</h1>
+        <button class="btn-icon" onclick="limparHistorico()" title="Limpar histórico">🗑️</button>
+      </div>
+      <div class="scroll-area" id="historicoList">
+        <div class="empty-state">
+          <div class="empty-ico">📭</div>
+          <p>Nenhum registro ainda.<br>Calcule e salve seu primeiro dia!</p>
+        </div>
+      </div>
     </div>
-  </div>
 
+    <!-- ======== TAB: MENSAL ======== -->
+    <div class="tab" id="tab-mensal">
+      <div class="tab-header">
+        <h1 class="tab-title">PAINEL <span>MENSAL</span></h1>
+        <div class="month-selector">
+          <button onclick="mudarMes(-1)">◀</button>
+          <span id="mesSelecionado"></span>
+          <button onclick="mudarMes(1)">▶</button>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card"><div class="stat-label">Dias trabalhados</div><div class="stat-value" id="s-dias">0</div></div>
+          <div class="stat-card"><div class="stat-label">KM rodados</div><div class="stat-value" id="s-km">0</div></div>
+          <div class="stat-card"><div class="stat-label">Ganho bruto</div><div class="stat-value green" id="s-bruto">R$ 0</div></div>
+          <div class="stat-card"><div class="stat-label">Total gastos</div><div class="stat-value red" id="s-gastos">R$ 0</div></div>
+          <div class="stat-card full-width"><div class="stat-label">Lucro líquido do mês</div><div class="stat-value big" id="s-lucro">R$ 0,00</div></div>
+          <div class="stat-card"><div class="stat-label">Média diária</div><div class="stat-value" id="s-media">R$ 0</div></div>
+          <div class="stat-card"><div class="stat-label">Melhor dia</div><div class="stat-value green" id="s-melhor">R$ 0</div></div>
+        </div>
+        <section class="section">
+          <div class="section-header"><h2>📊 Lucro por Dia</h2></div>
+          <div class="card chart-card-bar"><canvas id="barChart" height="220"></canvas></div>
+        </section>
+        <section class="section">
+          <div class="section-header"><h2>📈 Acumulado do Mês</h2></div>
+          <div class="card chart-card-bar"><canvas id="lineChart" height="200"></canvas></div>
+        </section>
+        <section class="section">
+          <button class="btn-secondary" onclick="exportarMensalPDF()">📄 Exportar Relatório Mensal PDF</button>
+        </section>
+      </div>
+    </div>
 
-  <!-- BOTTOM NAV (mobile) — ao final do flex para ficar naturalmente no rodapé -->
-  <nav class="bottom-nav">
-    <button class="nav-btn active" onclick="showTab('hoje')" id="nav-hoje">
-      <span class="nav-icon">📊</span><span class="nav-label">Hoje</span>
-    </button>
-    <button class="nav-btn" onclick="showTab('historico')" id="nav-historico">
-      <span class="nav-icon">📅</span><span class="nav-label">Histórico</span>
-    </button>
-    <button class="nav-btn" onclick="showTab('mensal')" id="nav-mensal">
-      <span class="nav-icon">📈</span><span class="nav-label">Mensal</span>
-    </button>
-    <button class="nav-btn" onclick="showTab('config')" id="nav-config">
-      <span class="nav-icon">⚙️</span><span class="nav-label">Config</span>
-    </button>
-  </nav>
+    <!-- ======== TAB: CONFIG ======== -->
+    <div class="tab" id="tab-config">
+      <div class="tab-header">
+        <h1 class="tab-title">CONFIGURAÇÕES</h1>
+      </div>
+      <div class="scroll-area">
+        <section class="section">
+          <div class="section-header"><h2>🏍️ Parâmetros da Moto</h2></div>
+          <div class="card">
+            <div class="grid-2">
+              <div class="field">
+                <label>Consumo médio (km/L)</label>
+                <div class="input-wrap"><span class="unit">⛽</span><input type="number" id="cfg-consumo" value="35" step="0.5" oninput="salvarConfig()"></div>
+                <span class="field-hint">CG 160 ≈ 40 | CB 300 ≈ 22</span>
+              </div>
+              <div class="field">
+                <label>Vida útil do par de pneus (km)</label>
+                <div class="input-wrap"><span class="unit">🔘</span><input type="number" id="cfg-vidaPneu" value="20000" step="1000" oninput="salvarConfig()"></div>
+              </div>
+              <div class="field">
+                <label>Custo do par de pneus (R$)</label>
+                <div class="input-wrap"><span class="unit">R$</span><input type="number" id="cfg-custoPneu" value="350" step="10" oninput="salvarConfig()"></div>
+              </div>
+              <div class="field">
+                <label>Vida útil da relação (km)</label>
+                <div class="input-wrap"><span class="unit">⛓️</span><input type="number" id="cfg-vidaRelacao" value="20000" step="1000" oninput="salvarConfig()"></div>
+              </div>
+              <div class="field">
+                <label>Custo do kit relação (R$)</label>
+                <div class="input-wrap"><span class="unit">R$</span><input type="number" id="cfg-custoRelacao" value="280" step="10" oninput="salvarConfig()"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section-header"><h2>📋 Custos Fixos Anuais</h2></div>
+          <div class="card">
+            <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Valores anuais — calculamos o custo diário automaticamente (÷365)</p>
+            <div class="grid-2">
+              <div class="field">
+                <label>IPVA anual (R$)</label>
+                <div class="input-wrap"><span class="unit">R$</span><input type="number" id="cfg-ipva" value="0" step="10" oninput="salvarConfig();atualizarDiario('ipva')"></div>
+                <span class="field-hint">Diário: <strong id="diario-ipva">R$ 0,00</strong></span>
+              </div>
+              <div class="field">
+                <label>Seguro anual (R$)</label>
+                <div class="input-wrap"><span class="unit">R$</span><input type="number" id="cfg-seguro" value="0" step="10" oninput="salvarConfig();atualizarDiario('seguro')"></div>
+                <span class="field-hint">Diário: <strong id="diario-seguro">R$ 0,00</strong></span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section-header"><h2>ℹ️ Sobre</h2></div>
+          <div class="card about-card">
+            <div class="about-item"><span>🏍️</span> MotoGastos Pro v2.0</div>
+            <div class="about-item"><span>💾</span> Dados salvos localmente no dispositivo</div>
+            <div class="about-item"><span>📶</span> Funciona sem internet (PWA)</div>
+            <div class="about-item" id="registros-count"><span>📊</span> 0 registros salvos</div>
+            <button class="btn-danger" onclick="confirmarLimparTudo()">🗑️ Apagar todos os dados</button>
+          </div>
+        </section>
+      </div>
+    </div>
 
-</div><!-- end app -->
+  </div><!-- /content-area -->
+</div><!-- /app -->
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -488,6 +416,17 @@
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
+
+  // Calcula a altura real da top-nav e aplica ao spacer dinamicamente
+  function ajustarSpacer() {
+    const nav = document.querySelector('.top-nav');
+    const spacer = document.querySelector('.top-nav-spacer');
+    if (nav && spacer) {
+      spacer.style.height = nav.offsetHeight + 'px';
+    }
+  }
+  window.addEventListener('load', ajustarSpacer);
+  window.addEventListener('resize', ajustarSpacer);
 </script>
 </body>
 </html>

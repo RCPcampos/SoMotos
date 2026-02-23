@@ -53,7 +53,7 @@ function atualizarDataHoje() {
 // ── TABS ──
 function showTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn, .tnav-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
 
   document.getElementById('tab-' + tab).classList.add('active');
@@ -62,6 +62,9 @@ function showTab(tab) {
   if (navBtn) navBtn.classList.add('active');
   const sideBtn = document.getElementById('side-' + tab);
   if (sideBtn) sideBtn.classList.add('active');
+
+  // Scroll para o topo ao trocar de aba
+  window.scrollTo({ top: 0, behavior: 'instant' });
 
   if (tab === 'mensal') atualizarMensal();
   if (tab === 'historico') renderHistorico();
