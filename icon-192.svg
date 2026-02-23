@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="40" fill="#0a0a0f"/>
+  <rect width="192" height="192" rx="40" fill="url(#grad)" opacity="0.3"/>
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <text x="96" y="115" font-size="80" text-anchor="middle" font-family="serif">🏍️</text>
+  <text x="96" y="155" font-size="22" text-anchor="middle" font-family="sans-serif" font-weight="800" fill="#f97316" letter-spacing="3">MOTO</text>
+</svg>
